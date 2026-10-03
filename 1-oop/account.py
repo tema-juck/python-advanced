@@ -6,6 +6,9 @@ class BankAccount:
     accounts = []
 
     def __init__(self, owner: str, account_number: int | str, current_balance: int = 0):
+        if current_balance < 0:
+            raise ValueError("Баланс не может быть отрицательным!")
+
         self.owner = owner
         self.account_number = account_number
         self.current_balance = current_balance
@@ -13,20 +16,24 @@ class BankAccount:
 
     def deposit(self, amount: int):
         """Deposit balance"""
-        self.current_balance += amount
+        if amount > 0:
+            self.current_balance += amount
+        else:
+            print("Введите сумму перевода больше 0!")
 
     def withdraw(self, amount: int):
         """Withdraw balance"""
         if self.current_balance <= 0:
             print(f"У вас на балансе: {self.current_balance}!")
-
-        if (self.current_balance - amount) < 0:
+        elif (self.current_balance - amount) < 0:
             print(
                 f"У вас недостаточно средств на балансе: {self.current_balance}!")
+        elif amount < 0:
+            print("Введите сумму перевода больше 0!")
+        elif amount > 0:
+            self.current_balance -= amount
 
-        self.current_balance -= amount
-
-    def transfer_to(self, other_account: BankAccount, amount: int):
+    def transfer_to(self, other_account: "BankAccount", amount: int):
         """Transfer Method"""
         if self.current_balance <= 0:
             print(
@@ -34,7 +41,9 @@ class BankAccount:
         elif (self.current_balance - amount) < 0:
             print(
                 f"У вас недостаточно средств для перевода: {self.current_balance}!")
-        else:
+        elif amount < 0:
+            print("Введите сумму перевода больше 0!")
+        elif amount > 0:
             self.current_balance -= amount
             other_account.current_balance += amount
 
@@ -52,12 +61,13 @@ class BankAccount:
         return len(cls.accounts)
 
 
-account1 = BankAccount("Kate", 1122334455, 0)
-account2 = BankAccount("Denis", 1122334466, 1000)
+# account1 = BankAccount("Kate", 1122334455, -200)
+# account2 = BankAccount("Denis", 1122334466, 1000)
 
-account1.transfer_to(account2, 1000)
 
-print(account2.info())
-print(account1.info())
+# account1.transfer_to(account2, 500)
 
-print(BankAccount.get_accounts_created())
+# print(account2.info())
+# print(account1.info())
+
+# print(BankAccount.get_accounts_created())
