@@ -1,20 +1,31 @@
 """Limit args decorator"""
 
+ALLOWED_MODES = ("clip", "error")
+
 
 def limit_args(max_value: int, mode: str):
+    if mode not in ALLOWED_MODES:
+        raise ValueError(f"Значение {mode} неверно")
+
+    def procces_value(value):
+        if isinstance(value, (int, float)) and value > max_value:
+            if mode == "error":
+                raise ValueError(
+                    f"Значение {value} превышает максимум {max_value}")
+            if mode == "clip":
+                return max_value
+        return value
+
     def decorator(func):
         def wrapper(*args, **kwargs):
-            new_args = list(args)
+            new_args = [procces_value(value) for value in args]
 
-            for index, value in enumerate(new_args):
-                if value > max_value and isinstance(value, int):
-                    if mode == "error":
-                        raise ValueError
+            new_kwargs = {
+                key: procces_value(value)
+                for key, value in kwargs.items()
+            }
 
-                    if mode == "clip":
-                        new_args[index] = max_value
-
-            return func(*new_args, **kwargs)
+            return func(*new_args, **new_kwargs)
         return wrapper
     return decorator
 
@@ -26,3 +37,4 @@ def multiply(a, b):
 
 print(multiply(2, 3))
 print(multiply(100, 3))
+print(multiply(a=100, b=3))
