@@ -19,13 +19,13 @@ class SlotUser:
     password: str
 
 
-users = [User("Anton", "1@1.ru", "12345678") for i in range(100000)]
+before = tracemalloc.get_traced_memory()[0]
+users = [User("Anton", "1@1.ru", "12345678") for _ in range(100000)]
+users_mem = tracemalloc.get_traced_memory()[0] - before
 
-users_mem = tracemalloc.get_traced_memory()
-
-usersSlots = [SlotUser("Anton", "1@1.ru", "12345678") for i in range(100000)]
-
-users_slots_mem = tracemalloc.get_traced_memory()
+before = tracemalloc.get_traced_memory()[0]
+slot_users = [SlotUser("Anton", "1@1.ru", "12345678") for _ in range(100000)]
+slot_users_mem = tracemalloc.get_traced_memory()[0] - before
 
 print(f"User: {users_mem} byte")
-print(f"UserSlots: {users_slots_mem} byte")
+print(f"UserSlots: {slot_users_mem} byte")
