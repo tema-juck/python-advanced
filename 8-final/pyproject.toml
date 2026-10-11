@@ -1,0 +1,22 @@
+[project]
+name = "8-final"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "temajuck",email = "temajuck@icloud.com"}
+]
+requires-python = ">=3.14, <4.0"
+dependencies = [
+    "httpx (>=0.28.1,<0.29.0)",
+    "textual (>=8.2.8,<9.0.0)"
+]
+
+[tool.poetry]
+packages = [{include = "app"}]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+app = "app.cli:run"
