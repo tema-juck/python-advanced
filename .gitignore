@@ -3,7 +3,7 @@ __pycache__/
 *.py[codz]
 *$py.class
 .pylintrc
-main.py
+/main.py
 
 # C extensions
 *.so

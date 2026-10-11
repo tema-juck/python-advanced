@@ -10,6 +10,8 @@ ROWS = [
 
 
 class MainScreen(Screen):
+    AUTO_FOCUS = "#monitoring-table"
+
     CSS = """
     #input-container {
         width: 100%;
@@ -31,7 +33,7 @@ class MainScreen(Screen):
     }
     
     #monitoring-table {
-        margin-top: 20;
+        margin-top: 5;
     }
     """
 
